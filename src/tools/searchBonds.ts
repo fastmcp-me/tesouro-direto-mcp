@@ -44,7 +44,7 @@ export async function handleSearchBondsTool(args: unknown) {
     const filteredBonds = responseData.TrsrBdTradgList.filter(item => {
       let match = true;
 
-      if (criteria.bondType && !item.TrsrBdType.nm.includes(criteria.bondType)) {
+      if (criteria.bondType && !item.TrsrBd.FinIndxs.nm.includes(criteria.bondType)) {
         match = false;
       }
 
