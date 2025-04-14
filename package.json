@@ -1,7 +1,7 @@
 {
   "name": "tesouro-direto-mcp",
-  "version": "1.0.0",
-  "description": "MCP server for Tesouro Direto API integration",
+  "version": "0.1.0-beta",
+  "description": "Model Context Protocol (MCP) server for Tesouro Direto API integration",
   "type": "module",
   "scripts": {
     "build": "tsc",
@@ -10,9 +10,21 @@
     "client": "node --loader ts-node/esm src/client.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "tesouro-direto",
+    "brazil",
+    "treasury",
+    "bonds",
+    "api"
+  ],
   "author": "",
-  "license": "ISC",
+  "license": "AGPL-3.0-only",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AtilioA/tesouro-direto-mcp.git"
+  },
   "packageManager": "pnpm@10.6.5",
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.0.0",
