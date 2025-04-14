@@ -2,24 +2,25 @@ import { z } from 'zod';
 import { getApiDataWithCache } from '../cache/apiCache.js';
 import { logger } from '../utils/logger.js';
 
+const VALID_BOND_TYPES = ['SELIC', 'IPCA', 'PREFIXADO'] as const;
+
 // Zod schema for the tool input
 const searchBondsSchema = z.object({
-  bondType: z.string().optional().describe('Filter by bond type name'),
+  bondType: z.enum(VALID_BOND_TYPES).optional().describe('Filter by bond type (SELIC, IPCA, or PREFIXADO)'),
   maturityAfter: z.string().optional().describe('Filter bonds maturing after this date (YYYY-MM-DD)'),
   maturityBefore: z.string().optional().describe('Filter bonds maturing before this date (YYYY-MM-DD)')
-}).refine(data => data.bondType || data.maturityAfter || data.maturityBefore, {
-  message: 'At least one search criteria must be provided'
 });
 
 export const searchBondsTool = {
   name: "search_bonds",
-  description: "Search for bonds by type or maturity date range",
+  description: "Search for bonds by type (SELIC, IPCA, PREFIXADO) or maturity date range",
   inputSchema: {
     type: "object",
     properties: {
       bondType: {
         type: "string",
-        description: "Filter by bond type name"
+        enum: VALID_BOND_TYPES,
+        description: "Filter by bond type (SELIC, IPCA, or PREFIXADO)"
       },
       maturityAfter: {
         type: "string",
@@ -44,8 +45,9 @@ export async function handleSearchBondsTool(args: unknown) {
     const filteredBonds = responseData.TrsrBdTradgList.filter(item => {
       let match = true;
 
-      if (criteria.bondType && !item.TrsrBd.FinIndxs.nm.includes(criteria.bondType)) {
-        match = false;
+      // Only apply bond type filter if a valid type is provided
+      if (criteria.bondType) {
+        match = item.TrsrBd.FinIndxs.nm.includes(criteria.bondType);
       }
 
       if (criteria.maturityAfter) {
@@ -73,7 +75,7 @@ export async function handleSearchBondsTool(args: unknown) {
           bonds: filteredBonds.map(item => ({
             code: item.TrsrBd.cd,
             name: item.TrsrBd.nm,
-            type: item.TrsrBdType.nm,
+            type: item.TrsrBd.FinIndxs.nm,
             maturity_date: item.TrsrBd.mtrtyDt,
             investment_rate: item.TrsrBd.anulInvstmtRate,
             redemption_rate: item.TrsrBd.anulRedRate,
