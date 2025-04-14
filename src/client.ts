@@ -3,7 +3,8 @@ import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js"
 import {
   ReadResourceResultSchema,
   ListResourcesResultSchema,
-  CallToolResultSchema
+  CallToolResultSchema,
+  ListToolsResultSchema
 } from "@modelcontextprotocol/sdk/types.js";
 
 async function main() {
@@ -25,6 +26,14 @@ async function main() {
     console.log('Connecting to server...');
     await client.connect(transport);
     console.log('Connected to server!');
+
+    // List available tools
+    console.log('Requesting tools list...');
+    const tools = await client.request(
+      { method: "tools/list" },
+      ListToolsResultSchema
+    );
+    console.log('Available tools:', tools);
 
     // List available resources
     console.log('Requesting resources list...');
@@ -76,6 +85,96 @@ async function main() {
       CallToolResultSchema
     );
     console.log('Market data tool result:', marketData);
+
+    // Call the search_bonds tool to find IPCA bonds with maturity in 2029
+    console.log('Searching for IPCA+ 2029 bonds...');
+    try {
+      const searchResultsIPCA = await client.request(
+        {
+          method: "tools/call",
+          params: {
+            name: "search_bonds",
+            arguments: {
+              bondType: "IPCA",
+              maturityAfter: "2029-01-01",
+              maturityBefore: "2029-12-31"
+            }
+          }
+        },
+        CallToolResultSchema
+      );
+
+      // Check if result has isError flag
+      if (searchResultsIPCA.isError) {
+        console.error('Error in search_bonds tool response:', searchResultsIPCA.content);
+      } else {
+        console.log('IPCA+ 2029 bonds search result:', searchResultsIPCA);
+
+        // Parse the JSON string from the text content to extract return rates
+        if (searchResultsIPCA.content && searchResultsIPCA.content.length > 0) {
+          const resultContent = JSON.parse(searchResultsIPCA.content[0].text as string);
+
+          console.log(`Found ${resultContent.total_results} bonds matching the criteria`);
+
+          // Show return rates for each bond
+          if (resultContent.bonds && resultContent.bonds.length > 0) {
+            resultContent.bonds.forEach((bond: {
+              name: string;
+              investment_rate: string;
+              redemption_rate: string;
+            }) => {
+              console.log(`Bond: ${bond.name}, Investment Rate: ${bond.investment_rate}, Redemption Rate: ${bond.redemption_rate}`);
+            });
+          }
+        }
+      }
+    } catch (toolError) {
+      console.error('Failed to execute search_bonds tool:', toolError);
+    }
+
+    // Call the search_bonds tool to find all SELIC bonds
+    console.log('Searching for all SELIC bonds...');
+    try {
+      const searchResultsSELIC = await client.request(
+        {
+          method: "tools/call",
+          params: {
+            name: "search_bonds",
+            arguments: {
+              bondType: "SELIC"
+            }
+          }
+        },
+        CallToolResultSchema
+      );
+
+      // Check if result has isError flag
+      if (searchResultsSELIC.isError) {
+        console.error('Error in search_bonds tool response:', searchResultsSELIC.content);
+      } else {
+        console.log('SELIC bonds search result:', searchResultsSELIC);
+
+        // Parse the JSON string from the text content to extract return rates
+        if (searchResultsSELIC.content && searchResultsSELIC.content.length > 0) {
+          const resultContent = JSON.parse(searchResultsSELIC.content[0].text as string);
+
+          console.log(`Found ${resultContent.total_results} SELIC bonds`);
+
+          // Show return rates for each bond
+          if (resultContent.bonds && resultContent.bonds.length > 0) {
+            resultContent.bonds.forEach((bond: {
+              name: string;
+              investment_rate: string;
+              redemption_rate: string;
+            }) => {
+              console.log(`Bond: ${bond.name}, Investment Rate: ${bond.investment_rate}, Redemption Rate: ${bond.redemption_rate}`);
+            });
+          }
+        }
+      }
+    } catch (toolError) {
+      console.error('Failed to execute search_bonds tool:', toolError);
+    }
 
   } catch (error) {
     console.error('Error:', error);
