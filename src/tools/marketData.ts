@@ -18,8 +18,8 @@ export async function handleMarketDataTool() {
     // Format the market data for the response
     return {
       content: [{
-        type: "application/json",
-        json: {
+        type: "text",
+        text: JSON.stringify({
           market_status: {
             opening_time: TrsrBondMkt.opngDtTm,
             closing_time: TrsrBondMkt.clsgDtTm,
@@ -31,7 +31,7 @@ export async function handleMarketDataTool() {
             code: BizSts.cd,
             timestamp: BizSts.dtTm
           }
-        }
+        }, null, 2)
       }]
     };
   } catch (error) {

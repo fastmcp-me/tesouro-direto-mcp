@@ -41,8 +41,8 @@ export async function handleBondDataTool(args: unknown) {
     // Format the bond data for the response
     return {
       content: [{
-        type: "application/json",
-        json: {
+        type: "text",
+        text: JSON.stringify({
           code: TrsrBd.cd,
           name: TrsrBd.nm,
           features: TrsrBd.featrs,
@@ -75,7 +75,7 @@ export async function handleBondDataTool(args: unknown) {
             custody_rate: TrsrBdType.ctdyRate,
             gross_price: TrsrBdType.grPr
           }
-        }
+        }, null, 2)
       }]
     };
   } catch (error) {

@@ -66,8 +66,8 @@ export async function handleSearchBondsTool(args: unknown) {
     // Format the search results for the response
     return {
       content: [{
-        type: "application/json",
-        json: {
+        type: "text",
+        text: JSON.stringify({
           criteria,
           total_results: filteredBonds.length,
           bonds: filteredBonds.map(item => ({
@@ -79,7 +79,7 @@ export async function handleSearchBondsTool(args: unknown) {
             redemption_rate: item.TrsrBd.anulRedRate,
             minimum_investment: item.TrsrBd.minInvstmtAmt
           }))
-        }
+        }, null, 2)
       }]
     };
   } catch (error) {
