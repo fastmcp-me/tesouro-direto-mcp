@@ -13,7 +13,7 @@ const CACHE_DURATION_MS = 10 * 60 * 1000;
 
 // Cache configuration
 const cacheConfig = {
-    isEnabled: process.env.MCP_CACHE_DISABLED !== 'true',
+    isEnabled: process.env.USE_MCP_CACHE !== 'false',
     durationMs: CACHE_DURATION_MS
 };
 
@@ -24,7 +24,7 @@ let cachedData: CacheEntry | null = null;
  */
 function withCache<T>(operation: string, fn: () => T): T | null {
     if (!cacheConfig.isEnabled) {
-        logger.debug(`Cache is disabled via MCP_CACHE_DISABLED environment variable, skipping ${operation}`);
+        logger.debug(`Cache is disabled via USE_MCP_CACHE environment variable, skipping ${operation}`);
         return null;
     }
     return fn();
