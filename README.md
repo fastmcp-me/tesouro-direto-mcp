@@ -1,6 +1,8 @@
 # Tesouro Direto MCP Server
 
-A Model Context Protocol (MCP) server implementation for interacting with the Tesouro Direto API. This server provides tools and resources for accessing Brazilian treasury bond data through MCP, allowing users to retrieve market data, bond-specific data, and search/filter bonds with natural language queries to LLMs.
+A Model Context Protocol (MCP) server implementation for interacting with the Tesouro Direto API.
+
+This server provides tools and resources for accessing Brazilian treasury bond data through MCP, allowing users to retrieve market data, bond-specific data, and search/filter bonds with natural language queries via LLMs.
 
 ## Features
 
@@ -19,47 +21,27 @@ A Model Context Protocol (MCP) server implementation for interacting with the Te
 
 ## Installation
 
-```bash
-# Clone the repository
-git clone https://github.com/AtilioA/tesouro-direto-mcp.git
-cd tesouro-direto-mcp
-
-# Install dependencies
-npm install
-
-# Build the project
-npm run build
-```
+...
 
 ## Usage
 
-### Running the Server
+Install from npm:
 
 ```bash
-npm start
+...
 ```
 
-### Using the Test Client
+This server can be used with any MCP client that supports the tools and resources interfaces.
 
-```bash
-npm run client
-```
+### Environment Variables
 
-### Using with MCP Inspector
+The server behavior can be customized through the following environment variables:
 
-You can use the MCP Inspector tool to interact with the server:
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `USE_MCP_CACHE` | Enable the in-memory cache for API responses | `true` |
 
-```bash
-npx @modelcontextprotocol/inspector dist/index.js
-```
-
-## Using with Claude.app or other MCP clients
-
-This server can be used with any MCP client that supports the tools and resources interfaces. For example, to use with Claude.app:
-
-1. Start the server
-2. Configure Claude.app to connect to your server
-3. Ask questions about Tesouro Direto market data or specific bonds
+These variables can be set either in your environment or in the MCP client configuration.
 
 ## Development
 
@@ -73,7 +55,6 @@ src/
 ├── tools/          # MCP tools implementation
 ├── types/          # Type definitions
 ├── utils/          # Utility functions
-├── client.ts       # Example client
 ├── index.ts        # Entry point
 └── server.ts       # MCP server implementation
 ```
@@ -83,4 +64,43 @@ src/
 - `npm run build`: Build the project
 - `npm start`: Start the server
 - `npm run dev`: Start the server in development mode with auto-reload
-- `npm run client`: Run the example client
+
+### Running the server
+
+```bash
+# Clone the repository
+git clone https://github.com/AtilioA/tesouro-direto-mcp.git
+cd tesouro-direto-mcp
+
+# Install dependencies
+npm install
+
+# Build the project
+npm run build
+```
+
+### Using with MCP Inspector
+
+You can use the MCP Inspector tool to interact with the server:
+
+```bash
+npx @modelcontextprotocol/inspector dist/index.js
+```
+
+### Adding to Cursor mcp.json
+
+To use the locally built MCP server with Cursor, add the following server to your `~/.cursor/mcp.json` file:
+
+```json
+"tesouro-direto": {
+    "command": "node",
+    "args": [
+        "<path_to_repo>/dist/index.js"
+    ],
+    "env": {
+        "USE_MCP_CACHE": "true"
+    }
+}
+```
+
+Replace `<path_to_repo>` with the absolute path to your cloned repository.
