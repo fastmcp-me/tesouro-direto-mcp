@@ -5,6 +5,10 @@ import path from 'path';
 const LOG_FILE = path.join(process.cwd(), 'mcp-server.log');
 
 export const logger = {
+    debug: (message: string, ...args: any[]) => {
+        const logMessage = `[DEBUG] ${message} ${args.map(arg => JSON.stringify(arg)).join(' ')}\n`;
+        fs.appendFileSync(LOG_FILE, logMessage);
+    },
     info: (message: string, ...args: any[]) => {
         const logMessage = `[INFO] ${message} ${args.map(arg => JSON.stringify(arg)).join(' ')}\n`;
         fs.appendFileSync(LOG_FILE, logMessage);
