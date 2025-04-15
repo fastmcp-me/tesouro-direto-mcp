@@ -33,7 +33,7 @@ export async function handleBondDataTool(args: unknown) {
     const bondItem = responseData.TrsrBdTradgList.find(item => item.TrsrBd.cd === code);
 
     if (!bondItem) {
-      throw new Error(`Bond with code ${code} not found`);
+      throw new Error(`Bond with code ${code} not found in the Tesouro Direto database. Please verify the bond code and try again.`);
     }
 
     const { TrsrBd, TrsrBdType } = bondItem;
@@ -81,7 +81,7 @@ export async function handleBondDataTool(args: unknown) {
   } catch (error) {
     if (error instanceof z.ZodError) {
       logger.error('Invalid input for bond data tool:', error.errors);
-      throw new Error(`Invalid input: ${error.errors.map(e => e.message).join(', ')}`);
+      throw new Error(`Invalid input for bond data tool: A valid positive numeric bond code is required. ${error.errors.map(e => e.message).join(', ')}`);
     }
 
     logger.error('Error in bond data tool:', error);
