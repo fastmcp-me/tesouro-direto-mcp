@@ -2,25 +2,25 @@ import { z } from 'zod';
 import { getApiDataWithCache } from '../cache/apiCache.js';
 import { logger } from '../utils/logger.js';
 
-const VALID_BOND_TYPES = ['SELIC', 'IPCA', 'PREFIXADO'] as const;
+const VALID_BOND_TYPES = ['ANY', 'SELIC', 'IPCA', 'PREFIXADO'] as const;
 
 // Zod schema for the tool input
 const searchBondsSchema = z.object({
-  bondType: z.enum(VALID_BOND_TYPES).optional().describe('Filter by bond type (SELIC, IPCA, or PREFIXADO)'),
+  bondType: z.enum(VALID_BOND_TYPES).optional().describe('Filter by bond type (ANY, SELIC, IPCA, or PREFIXADO)'),
   maturityAfter: z.string().optional().describe('Filter bonds maturing after this date (YYYY-MM-DD)'),
   maturityBefore: z.string().optional().describe('Filter bonds maturing before this date (YYYY-MM-DD)')
 });
 
 export const searchBondsTool = {
   name: "search_bonds",
-  description: "Search for bonds by type (SELIC, IPCA, PREFIXADO) or maturity date range",
+  description: "Search for bonds by type (ANY,SELIC, IPCA, PREFIXADO) or maturity date range",
   inputSchema: {
     type: "object",
     properties: {
       bondType: {
         type: "string",
         enum: VALID_BOND_TYPES,
-        description: "Filter by bond type (SELIC, IPCA, or PREFIXADO)"
+        description: "Filter by bond type (ANY, SELIC, IPCA, or PREFIXADO)"
       },
       maturityAfter: {
         type: "string",
@@ -46,7 +46,7 @@ export async function handleSearchBondsTool(args: unknown) {
       let match = true;
 
       // Only apply bond type filter if a valid type is provided
-      if (criteria.bondType) {
+      if (criteria.bondType && criteria.bondType !== 'ANY') {
         match = item.TrsrBd.FinIndxs.nm.includes(criteria.bondType);
       }
 
