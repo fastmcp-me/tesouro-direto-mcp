@@ -20,7 +20,7 @@
     "api"
   ],
   "bin": {
-    "tesouro-direto-mcp": "node ./dist/index.js"
+    "tesouro-direto-mcp": "./dist/index.js"
   },
   "author": "AtilioA",
   "license": "AGPL-3.0-only",
