@@ -1,3 +1,5 @@
+// Simple client to interact with the MCP server using the Model Context Protocol (MCP) via stdio
+
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
 import {
