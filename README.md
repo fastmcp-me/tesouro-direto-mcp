@@ -1,5 +1,8 @@
 # Tesouro Direto MCP Server
 
+[![npm version](https://img.shields.io/npm/v/tesouro-direto-mcp.svg)](https://www.npmjs.com/package/tesouro-direto-mcp)
+[![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](LICENSE)
+
 A Model Context Protocol (MCP) server implementation for integrating with the Tesouro Direto API, enabling natural language access to Brazilian treasury bond data.
 
 ---
