@@ -1,6 +1,6 @@
 {
   "name": "tesouro-direto-mcp",
-  "version": "0.1.0-beta",
+  "version": "0.2.0",
   "description": "Model Context Protocol (MCP) server for Tesouro Direto API integration",
   "type": "module",
   "scripts": {
@@ -19,7 +19,10 @@
     "bonds",
     "api"
   ],
-  "author": "",
+  "bin": {
+    "tesouro-direto-mcp": "./dist/index.js"
+  },
+  "author": "AtilioA",
   "license": "AGPL-3.0-only",
   "repository": {
     "type": "git",
