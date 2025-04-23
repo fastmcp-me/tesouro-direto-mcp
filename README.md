@@ -1,71 +1,61 @@
 # Tesouro Direto MCP Server
 
-A Model Context Protocol (MCP) server implementation for interacting with the Tesouro Direto API.
+A Model Context Protocol (MCP) server implementation for integrating with the Tesouro Direto API, enabling natural language access to Brazilian treasury bond data.
 
-This server provides tools and resources for accessing Brazilian treasury bond data through MCP, allowing users to retrieve market data, bond-specific data, and search/filter bonds with natural language queries via LLMs.
+---
 
 ## Features
 
-- **MCP tools:**
-  - `market_data`: Retrieve general market data (opening/closing times, status)
+Query market data, bond details, and search/filter bonds using everyday language through MCP-compatible clients.
+
+- **MCP tools**:
+  - `market_data`: Retrieve general treasury bond market data (opening/closing times, status)
   - `bond_data`: Get detailed information about a specific bond
-  - `search_bonds`: Search/filter bonds by various criteria
+  - `search_bonds`: Search/filter bonds by type, maturity, and other criteria
+- **Smart caching**: 10-minute in-memory cache based on API update timestamps to reduce calls and ensure data freshness.
 
-- **MCP resources:**
-  - `tesourodireto://market`: Market data resource
-  - `tesourodireto://bond/{code}`: Individual bond resources
+---
 
-- **Smart caching:**
-  - Implements a 10-minute caching strategy based on API update timestamps
-  - Reduces API calls while ensuring data freshness
+## Example usage
+
+In a MCP-compatible client, you can use the following prompts:
+
+- *"Show all available Tesouro Direto bonds"*
+- *"Get details for the bond IPCA+ 2029"*
+- *"Search for IPCA bonds maturing after 2045"*
+- *"What is the current treasury bond market status?"*
+- *"Provide a detailed analysis of the top three bonds with the highest yields for both IPCA and fixed-rate bonds."*
+
+---
 
 ## Installation
 
-...
+### Installing via npm
 
-## Usage
+### Example JSON for MCP client configuration (Cursor/Claude)
 
-Install from npm:
+With [npx](https://docs.npmjs.com/cli/commands/npx), add this to your `~/.cursor/mcp.json`, or `claude_desktop_config.json` if you are using its desktop app:
 
-```bash
-...
+```json
+{
+    "mcpServers": {
+        "tesouro-direto": {
+            "command": "npx",
+            "args": [
+                "-y",
+                "tesouro-direto-mcp"
+            ],
+            "env": {
+                "USE_MCP_CACHE": "true"
+            }
+        }
+    }
+}
 ```
 
-This server can be used with any MCP client that supports the tools and resources interfaces.
+---
 
-### Environment Variables
-
-The server behavior can be customized through the following environment variables:
-
-| Variable | Description | Default |
-|----------|-------------|---------|
-| `USE_MCP_CACHE` | Enable the in-memory cache for API responses | `true` |
-
-These variables can be set either in your environment or in the MCP client configuration.
-
-## Development
-
-### Project structure
-
-```
-src/
-├── api/            # API client for Tesouro Direto
-├── cache/          # Caching implementation (in-memory; TD API only updates every 15 minutes)
-├── resources/      # MCP resources implementation
-├── tools/          # MCP tools implementation
-├── types/          # Type definitions
-├── utils/          # Utility functions
-├── index.ts        # Entry point
-└── server.ts       # MCP server implementation
-```
-
-### Available scripts
-
-- `npm run build`: Build the project
-- `npm start`: Start the server
-- `npm run dev`: Start the server in development mode with auto-reload
-
-### Running the server
+### Building from source
 
 ```bash
 # Clone the repository
@@ -73,34 +63,92 @@ git clone https://github.com/AtilioA/tesouro-direto-mcp.git
 cd tesouro-direto-mcp
 
 # Install dependencies
-npm install
+pnpm install
 
 # Build the project
-npm run build
+pnpm run build
 ```
 
-### Using with MCP Inspector
+You can run the MCP server directly after building:
 
-You can use the MCP Inspector tool to interact with the server:
+```bash
+node dist/index.js
+```
+
+Or use it with any MCP-compatible client (e.g., MCP Inspector):
 
 ```bash
 npx @modelcontextprotocol/inspector dist/index.js
 ```
 
-### Adding to Cursor mcp.json
+---
 
-To use the locally built MCP server with Cursor, add the following server to your `~/.cursor/mcp.json` file:
+## Tools
 
-```json
-"tesouro-direto": {
-    "command": "node",
-    "args": [
-        "<path_to_repo>/dist/index.js"
-    ],
-    "env": {
-        "USE_MCP_CACHE": "true"
-    }
-}
+### `market_data`
+
+Retrieve general market data, including opening/closing times and current status.
+
+### `bond_data`
+
+Get detailed information for a specific bond by its code.
+
+### `search_bonds`
+
+Search and filter bonds by type (SELIC, IPCA, PREFIXADO), maturity date, and more.
+
+---
+
+## Environment variables
+
+| Variable         | Description                                 | Default |
+|------------------|---------------------------------------------|---------|
+| `USE_MCP_CACHE`  | Enable the in-memory cache for API responses| `true`  |
+
+Set these in your environment or in your MCP client configuration.
+
+---
+
+## Project sStructure
+
+```
+src/
+├── api/         # API client for Tesouro Direto
+│   └── tesouroDireto.ts
+├── cache/       # Caching implementation
+│   └── apiCache.ts
+├── resources/   # MCP resources implementation
+│   └── index.ts
+├── tools/       # MCP tools implementation
+│   ├── bondData.ts
+│   ├── marketData.ts
+│   └── searchBonds.ts
+├── types/       # Type definitions
+│   └── index.ts
+├── utils/       # Utility functions
+│   ├── errorHandler.ts
+│   └── logger.ts
+├── client.ts    # Example MCP client
+├── index.ts     # Entry point
+└── server.ts    # MCP server implementation
 ```
 
-Replace `<path_to_repo>` with the absolute path to your cloned repository.
+---
+
+## Available scripts
+
+- `pnpm run build` / `npm run build`: Build the project
+- `pnpm start` / `npm start`: Start the server
+- `pnpm run dev` / `npm run dev`: Start the server in development mode with auto-reload
+
+---
+
+## Contributing
+
+Contributions are welcome! Please open an issue or submit a pull request on [GitHub](https://github.com/AtilioA/tesouro-direto-mcp).
+
+---
+
+## License
+
+This project is licensed under the GNU Affero General Public License v3.0. See the [LICENSE](LICENSE) file for details.
