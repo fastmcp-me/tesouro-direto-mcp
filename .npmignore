@@ -1,0 +1,36 @@
+# Ignore TypeScript source and configs
+src/
+tsconfig.json
+tsconfig.*.json
+
+# Ignore test files and configs
+test/
+*.test.ts
+*.spec.ts
+
+# Ignore local environment and lock files
+.env
+.env.*
+*.log
+
+# Ignore node_modules (npm ignores this by default)
+node_modules/
+
+# Ignore build scripts and dev tools
+scripts/
+*.sh
+
+# Ignore editor and OS files
+.DS_Store
+.vscode/
+.idea/
+
+# Ignore pnpm and other lock files (npm will include package.json and package-lock.json by default)
+pnpm-lock.yaml
+yarn.lock
+
+# Ignore GitHub workflows and CI configs
+.github/
+.gitlab/
+
+*.log
