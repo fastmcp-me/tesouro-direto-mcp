@@ -1,6 +1,6 @@
 {
     "name": "tesouro-direto-mcp",
-    "version": "0.2.2",
+    "version": "0.2.3",
     "description": "Model Context Protocol (MCP) server for Tesouro Direto API integration",
     "type": "module",
     "scripts": {
