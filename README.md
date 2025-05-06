@@ -15,7 +15,7 @@ Query market data, bond details, and search/filter bonds using everyday language
   - `market_data`: Retrieve general treasury bond market data (opening/closing times, status)
   - `bond_data`: Get detailed information about a specific bond
   - `search_bonds`: Search/filter bonds by type, maturity, and other criteria
-- **Smart caching**: 10-minute in-memory cache based on API update timestamps to reduce calls and ensure data freshness.
+- **Smart caching**: 10-minute in-memory cache based on API update timestamps to reduce calls while ensuring data freshness.
 
 ---
 
@@ -112,7 +112,7 @@ Set these in your environment or in your MCP client configuration.
 
 ---
 
-## Project sStructure
+## Project structure
 
 ```
 src/
