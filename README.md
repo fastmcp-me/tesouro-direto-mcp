@@ -1,5 +1,6 @@
 # Tesouro Direto MCP Server
 
+[![smithery badge](https://smithery.ai/badge/@AtilioA/tesouro-direto-mcp)](https://smithery.ai/server/@AtilioA/tesouro-direto-mcp)
 [![npm version](https://img.shields.io/npm/v/tesouro-direto-mcp.svg)](https://www.npmjs.com/package/tesouro-direto-mcp)
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](LICENSE)
 
@@ -32,6 +33,14 @@ In a MCP-compatible client, you can use the following prompts:
 ---
 
 ## Installation
+
+### Installing via Smithery
+
+To install Tesouro Direto MCP Server for Claude Desktop automatically via [Smithery](https://smithery.ai/server/@AtilioA/tesouro-direto-mcp):
+
+```bash
+npx -y @smithery/cli install @AtilioA/tesouro-direto-mcp --client claude
+```
 
 ### Installing via npm
 
