@@ -1,0 +1,18 @@
+# Smithery configuration file: https://smithery.ai/docs/build/project-config
+
+startCommand:
+  type: stdio
+  configSchema:
+    # JSON Schema defining the configuration options for the MCP.
+    type: object
+    properties:
+      useMcpCache:
+        type: boolean
+        default: true
+        description: Enable in-memory cache for API responses
+  commandFunction:
+    # A JS function that produces the CLI command based on the given config to start the MCP on stdio.
+    |-
+    (config) => ({ command: 'node', args: ['dist/index.js'], env: { USE_MCP_CACHE: config.useMcpCache.toString() } })
+  exampleConfig:
+    useMcpCache: true
