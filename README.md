@@ -1,3 +1,10 @@
+[![Add to Cursor](https://fastmcp.me/badges/cursor_dark.svg)](https://fastmcp.me/MCP/Details/613/tesouro-direto)
+[![Add to VS Code](https://fastmcp.me/badges/vscode_dark.svg)](https://fastmcp.me/MCP/Details/613/tesouro-direto)
+[![Add to Claude](https://fastmcp.me/badges/claude_dark.svg)](https://fastmcp.me/MCP/Details/613/tesouro-direto)
+[![Add to ChatGPT](https://fastmcp.me/badges/chatgpt_dark.svg)](https://fastmcp.me/MCP/Details/613/tesouro-direto)
+[![Add to Codex](https://fastmcp.me/badges/codex_dark.svg)](https://fastmcp.me/MCP/Details/613/tesouro-direto)
+[![Add to Gemini](https://fastmcp.me/badges/gemini_dark.svg)](https://fastmcp.me/MCP/Details/613/tesouro-direto)
+
 # Tesouro Direto MCP Server
 
 [![smithery badge](https://smithery.ai/badge/@AtilioA/tesouro-direto-mcp)](https://smithery.ai/server/@AtilioA/tesouro-direto-mcp)
